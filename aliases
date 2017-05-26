@@ -1,0 +1,24 @@
+alias ls='ls -G'
+alias grep='grep --color'
+alias fu='sudo $( fc -ln -1)'
+alias g='git'
+alias ll='ls -Glrah'
+
+# Python Environment aliases
+alias pyenv-27="source $HOME/python/27/bin/activate"
+alias pyenv-reset="deactivate"
+
+# command L equivalent to command |less
+alias -g L='|less' 
+
+# command S equivalent to command &> /dev/null &
+alias -g S='&> /dev/null &'
+
+alias -g G='|grep -a'
+
+# Docker helpers
+alias -g dps='docker ps -a '
+alias -g drm='docker rm '
+alias -g drun='docker run '
+
+
