@@ -17,8 +17,8 @@ alias -g S='&> /dev/null &'
 alias -g G='|grep -a'
 
 # Docker helpers
-alias -g dps='docker ps -a '
-alias -g drm='docker rm '
-alias -g drun='docker run '
+alias -g dcps='docker ps -a '
+alias -g dcrm='docker rm '
+alias -g dcrun='docker run '
 
 
