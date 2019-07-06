@@ -10,7 +10,7 @@ function title {
   emulate -L zsh
   setopt prompt_subst
 
-  [[ "$INSIDE_EMACS" == *term* ]] && return
+  [[ "$EMACS" == *term* ]] && return
 
   # if $2 is unset use $1 as default
   # if it is set and empty, leave it as is
@@ -102,22 +102,19 @@ function omz_termsupport_preexec {
   local CMD=${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}
   local LINE="${2:gs/%/%%}"
 
-  # replace fg, possibly with argument, with description from jobs
   if [[ "$CMD" = fg ]]; then
+    # replace fg, possibly with argument, with description from jobs
     local JOB
     if [[ ${(z)1} = fg ]]; then # no arguments
-      JOB="$(jobs %% 2>/dev/null)"
+      JOB="$(jobs %%)"
     else # arguments
-      JOB="$(jobs ${${(z)1}[2]} 2>/dev/null)"
+      JOB="$(jobs ${${(z)1}[2]})"
     fi
-    if [[ $? -eq 0 ]]; then
-      JOB="${${(z)JOB}[4,$]}" # trim job number, +, pid, status
-      title ${JOB:gs/%/%%} ${JOB:gs/%/%%}
-      return
-    fi
+    JOB="${${(z)JOB}[4,$]}" # trim job number, +, pid, status
+    title ${JOB:gs/%/%%} ${JOB:gs/%/%%}
+  else
+    title '$CMD' '%100>...>$LINE%<<'
   fi
-
-  title '$CMD' '%100>...>$LINE%<<'
 }
 
 autoload -U add-zsh-hook
