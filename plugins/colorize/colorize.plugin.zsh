@@ -1,28 +1,86 @@
 # easier alias to use the plugin
 alias ccat='colorize_via_pygmentize'
+alias cless='colorize_via_pygmentize_less'
 
 colorize_via_pygmentize() {
-    if ! (( $+commands[pygmentize] )); then
-        echo "package 'Pygments' is not installed!"
+    
+    if [[ $ZSH_COLORIZE_TOOL != "chroma" && $ZSH_COLORIZE_TOOL != "pygmentize" ]]; then
+        echo "ZSH_COLORIZE_TOOL not recognized.  Options are 'pygmentize' or 'chroma'"
         return 1
     fi
 
+    if [ -z $ZSH_COLORIZE_TOOL ]; then
+        if (( $+commands[pygmentize] )); then
+            ZSH_COLORIZE_TOOL="pygmentize"
+        elif (( $+commands[chroma] )); then
+            ZSH_COLORIZE_TOOL="chroma"
+        else
+            echo "niether 'Pygments' nor 'chroma' is not installed!"
+            return 1
+        fi
+    fi
+
+    echo "Tool: $ZSH_COLORIZE_TOOL"
+
+    # If the environment variable ZSH_COLORIZE_STYLE
+    # is set, use that theme instead. Otherwise,
+    # use the default.
+    if [ -z $ZSH_COLORIZE_STYLE ]; then
+        if [[ $ZSH_COLORIZE_TOOL == "pygmentize" ]]; then
+            ZSH_COLORIZE_STYLE="default"
+        else
+            # Choosing 'emacs' to match pygmentize's default as per:
+            # https://github.com/pygments/pygments/blob/master/pygments/styles/default.py#L19
+            ZSH_COLORIZE_STYLE="emacs"
+        fi
+    fi
+
+    echo "color style: $ZSH_COLORIZE_STYLE"
     # pygmentize stdin if no arguments passed
     if [ $# -eq 0 ]; then
-        pygmentize -f terminal -g
+        if [[ $ZSH_COLORIZE_TOOL == "pygmentize" ]]; then
+            pygmentize -O style="$ZSH_COLORIZE_STYLE" -g
+        else
+            chroma --style="$ZSH_COLORIZE_STYLE"
+        fi
         return $?
     fi
 
     # guess lexer from file extension, or
     # guess it from file contents if unsuccessful
+
     local FNAME lexer
-    for FNAME in $@
+    for FNAME in "$@"
     do
-        lexer=$(pygmentize -N "$FNAME")
-        if [[ $lexer != text ]]; then
-            pygmentize -f terminal -l "$lexer" "$FNAME"
+        if [[ $ZSH_COLORIZE_TOOL == "pygmentize" ]]; then
+            lexer=$(pygmentize -N "$FNAME")
+            if [[ $lexer != text ]]; then
+                pygmentize -O style="$ZSH_COLORIZE_STYLE" -l "$lexer" "$FNAME"
+            else
+                pygmentize -O style="$ZSH_COLORIZE_STYLE" -g "$FNAME"
+            fi
         else
-            pygmentize -f terminal -g "$FNAME"
+            chroma --style="$ZSH_COLORIZE_STYLE" "$FNAME"
         fi
     done
 }
+
+colorize_via_pygmentize_less() (
+    # this function is a subshell so tmp_files can be shared to cleanup function
+    declare -a tmp_files 
+
+    cleanup () {
+        [[ ${#tmp_files} -gt 0 ]] && rm -f "${tmp_files[@]}"
+        exit
+    }
+    trap 'cleanup' EXIT HUP TERM INT
+
+    while (( $# != 0 )); do     #TODO: filter out less opts
+        tmp_file="$(mktemp -t "tmp.colorize.XXXX.$(sed 's/\//./g' <<< "$1")")"
+        tmp_files+=("$tmp_file")
+        colorize_via_pygmentize "$1" > "$tmp_file"
+        shift 1
+    done
+
+    less -f "${tmp_files[@]}"
+)
