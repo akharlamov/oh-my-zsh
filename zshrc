@@ -17,8 +17,8 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
 
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+#alias zshconfig="mate ~/.zshrc"
+#alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -56,4 +56,19 @@ source $ZSH/oh-my-zsh.sh
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 test -e "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && source "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+
+if [ -x `which direnv` ]; 
+then
+	eval "$(direnv hook zsh)"
+fi
+
+if [ -x $(which pyenv) ]; 
+then
+	eval "$(pyenv init -)"
+fi
+
+if [ -x $(which jenv) ];
+then 
+	eval "$(jenv init -)"
+fi
 
