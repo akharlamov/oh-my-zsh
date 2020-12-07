@@ -4,10 +4,6 @@ alias fu='sudo $( fc -ln -1)'
 alias g='git'
 alias ll='ls -Glrah'
 
-# Python Environment aliases
-alias pyenv-27="source $HOME/python/27/bin/activate"
-alias pyenv-reset="deactivate"
-
 # command L equivalent to command |less
 alias -g L='|less' 
 
@@ -21,4 +17,5 @@ alias -g dcps='docker ps -a '
 alias -g dcrm='docker rm '
 alias -g dcrun='docker run '
 
-
+# Terraform
+alias -g tf='terraform '

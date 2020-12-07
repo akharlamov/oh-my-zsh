@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx brew mvn virtualenv terminalapp github docker docker-compose docker-machine kubectl kops)
+plugins=(git osx brew mvn virtualenv docker docker-compose kubectl gcloud)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -57,18 +57,21 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 test -e "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && source "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-if [ -x `which direnv` ]; 
-then
-	eval "$(direnv hook zsh)"
+if [ -x "$(which direnv)" ]; then
+    eval "$(direnv hook zsh)"
 fi
 
-if [ -x $(which pyenv) ]; 
-then
-	eval "$(pyenv init -)"
+if [ -x "$HOME/.pyenv/bin/pyenv" ]; then
+    export PATH="$HOME/.pyenv/bin:$PATH"
+    eval "$($HOME/.pyenv/bin/pyenv init -)"
 fi
 
-if [ -x $(which jenv) ];
-then 
-	eval "$(jenv init -)"
+if [ -x "$(which jenv)" ]; then 
+    eval "$(jenv init -)"
+fi
+
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ];
+then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv) "
 fi
 
