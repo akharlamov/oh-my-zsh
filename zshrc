@@ -57,8 +57,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 
 test -e "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && source "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
-if [ -x "$(which direnv)" ]; then
-    eval "$(direnv hook zsh)"
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ];
+then
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv) "
 fi
 
 if [ -x "$HOME/.pyenv/bin/pyenv" ]; then
@@ -66,12 +67,11 @@ if [ -x "$HOME/.pyenv/bin/pyenv" ]; then
     eval "$($HOME/.pyenv/bin/pyenv init -)"
 fi
 
-if [ -x "$(which jenv)" ]; then 
-    eval "$(jenv init -)"
+if [ -x ~/.jenv/bin/jenv ]; then 
+    export PATH="$HOME/.jenv/bin:$PATH"
+    eval "$(~/.jenv/bin/jenv init -)"
 fi
 
-if [ -x /home/linuxbrew/.linuxbrew/bin/brew ];
-then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv) "
+if [ -x "$(which direnv)" ]; then
+    eval "$(direnv hook zsh)"
 fi
-

@@ -19,3 +19,5 @@ alias -g dcrun='docker run '
 
 # Terraform
 alias -g tf='terraform '
+alias -g gssh='gcloud compute ssh '
+
