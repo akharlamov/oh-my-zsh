@@ -13,11 +13,27 @@ alias -g S='&> /dev/null &'
 alias -g G='|grep -a'
 
 # Docker helpers
-alias -g dcps='docker ps -a '
-alias -g dcrm='docker rm '
-alias -g dcrun='docker run '
+alias -g dps='docker ps -a '
+alias -g drm='docker rm '
+alias -g drun='docker run '
 
 # Terraform
 alias -g tf='terraform '
 alias -g gssh='gcloud compute ssh '
+alias -g dfh='df -h | grep -v -E "overlay|shm|/dev/loop"'
+
+case "$OSTYPE" in
+   cygwin*)
+      alias open="cmd /c start"
+      ;;
+   linux*)
+      alias start="xdg-open"
+      alias open="xdg-open"
+      ;;
+   darwin*)
+      alias start="open"
+      ;;
+esac
+
+alias -g mergepdf='gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=merged.pdf '
 
