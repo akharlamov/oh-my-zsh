@@ -49,7 +49,7 @@ COMPLETION_WAITING_DOTS="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git osx brew mvn virtualenv docker docker-compose kubectl gcloud)
+plugins=(git osx brew mvn virtualenv docker docker-compose kubectl gcloud minikube terraform pyenv jenv direnv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -60,20 +60,6 @@ test -e "$ZSH/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" && source "$Z
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ];
 then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv) "
-fi
-
-if [ -x "$HOME/.pyenv/bin/pyenv" ]; then
-    export PATH="$HOME/.pyenv/bin:$PATH"
-    eval "$($HOME/.pyenv/bin/pyenv init -)"
-fi
-
-if [ -x ~/.jenv/bin/jenv ]; then 
-    export PATH="$HOME/.jenv/bin:$PATH"
-    eval "$(~/.jenv/bin/jenv init -)"
-fi
-
-if [ -x "$(which direnv)" ]; then
-    eval "$(direnv hook zsh)"
 fi
 
 if [ -d "$HOME/.nvm" ]; then
