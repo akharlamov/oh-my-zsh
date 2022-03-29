@@ -367,5 +367,5 @@ kube_ps1() {
   # Close Background color if defined
   [[ -n "${KUBE_PS1_BG_COLOR}" ]] && KUBE_PS1+="${_KUBE_PS1_OPEN_ESC}${_KUBE_PS1_DEFAULT_BG}${_KUBE_PS1_CLOSE_ESC}"
 
-  echo "${KUBE_PS1}"
+  echo -n "${KUBE_PS1}"
 }
