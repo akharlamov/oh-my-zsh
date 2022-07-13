@@ -81,4 +81,7 @@ if [ -d "$HOME/.nvm" ]; then
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 fi
 
+if [ -d "$HOME/bin" ]; then
+	export PATH="$HOME/bin:$PATH"
+fi
 

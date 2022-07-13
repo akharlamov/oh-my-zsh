@@ -2,7 +2,11 @@ alias ls='ls -G'
 alias grep='grep --color'
 alias fu='sudo $( fc -ln -1)'
 alias g='git'
-alias ll='ls -Glrah'
+if [ -x $(which exa) ] ; then
+  alias ll='exa -lagG'
+else
+  alias ll='ls -Glrah'
+fi
 
 # command L equivalent to command |less
 alias -g L='|less' 
