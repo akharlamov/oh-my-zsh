@@ -2,7 +2,7 @@ alias ls='ls -G'
 alias grep='grep --color'
 alias fu='sudo $( fc -ln -1)'
 alias g='git'
-if [ -x $(which exa) ] ; then
+if [ -x "$(which exa)" ] ; then
   alias ll='exa -lagG'
 else
   alias ll='ls -Glrah'
